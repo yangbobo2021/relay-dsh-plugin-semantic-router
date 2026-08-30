@@ -11,6 +11,7 @@ export function createSinglePassSemanticRouter({
   assert.ok(Number.isInteger(maxAttempts) && maxAttempts > 0, "maxAttempts must be positive");
 
   return {
+    id: "relay.semantic-router",
     name: "semantic-single-pass",
     model: adapter.model ?? null,
     async route({ event, sessions }) {

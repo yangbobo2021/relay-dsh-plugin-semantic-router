@@ -5,6 +5,7 @@ import {
   buildSemanticRoutingPayload,
   createSinglePassSemanticRouter,
 } from "../index.mjs";
+import { validateRouterProvider } from "relay-dsh-plugin-events/contracts";
 
 test("single-pass semantic router retries invalid structured output", async () => {
   const prompts = [];
@@ -25,6 +26,9 @@ test("single-pass semantic router retries invalid structured output", async () =
     },
   };
   const router = createSinglePassSemanticRouter({ adapter });
+
+  assert.equal(router.id, "relay.semantic-router");
+  assert.doesNotThrow(() => validateRouterProvider(router));
 
   const result = await router.route({ event: emailEvent(), sessions: [waitingSession()] });
 
