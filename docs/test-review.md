@@ -21,3 +21,14 @@ cross-plugin delivery harness.
   stable provider `id`, so Events correctly rejected it at registration time.
 - The router now passes Events' public `validateRouterProvider` contract before any
   model call; the regression is asserted in the normal semantic routing test.
+
+## Review 4 — prompt and lifecycle
+
+- Added the explicit output schema to the model prompt; fake responses previously
+  concealed that the prompt referred to a schema it did not contain.
+- Bounded even an uncooperative stream with a deadline, propagated unload abort,
+  and prevented cancellation from starting a new retry. Added tests for both.
+- Real Cordis late activation, provider replacement and dependency unload/reload
+  pass in Relay's cross-plugin lifecycle test.
+- Corrected the installation instructions: built tarballs, not raw GitHub source
+  with missing ignored `lib/` artifacts.

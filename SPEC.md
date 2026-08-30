@@ -34,6 +34,8 @@ supplied through `RELAY_ROUTER_PROVIDER` and `RELAY_ROUTER_MODEL`. When either i
 missing, the plugin remains installed but registers no Router and logs one actionable
 warning; Events continues using exact fallback. `timeoutMs`, `maxAttempts`, and
 `maxOutputTokens` are bounded.
+Each call has a maximum 60-second deadline; attempts are limited to 1–3 (default 2).
+Unload aborts the active call and never starts a cancellation retry.
 
 ## Routing Contract
 
@@ -50,4 +52,3 @@ warning; Events continues using exact fallback. `timeoutMs`, `maxAttempts`, and
 
 The executable scenario list is in
 [`docs/acceptance-scenarios.md`](docs/acceptance-scenarios.md).
-

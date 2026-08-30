@@ -7,13 +7,19 @@ admits a DSH Session itself.
 
 ```bash
 dsh plugin --profile web add \
-  github:yangbobo2021/relay-dsh-plugin-events#main \
-  github:yangbobo2021/relay-dsh-plugin-semantic-router#main
+  ./relay-dsh-plugin-events-0.1.0.tgz \
+  ./relay-dsh-plugin-semantic-router-0.1.0.tgz
 ```
 
 Configure an existing DSH LLM route with `RELAY_ROUTER_PROVIDER` and
 `RELAY_ROUTER_MODEL`. Missing configuration is a contained inactive state; Events
 continues exact fallback routing.
+
+Build this repository with `DSH_ROOT` pointing to a prepared official DSH checkout:
+`npm ci --ignore-scripts && npm run verify && npm pack`. Install the resulting
+tarballs together. Raw GitHub source does not contain built `lib/`; npm publication
+is not claimed. Each model attempt is bounded to at most 60 seconds, with 1–3
+attempts. Unloading cancels the active request without starting another retry.
 
 See [SPEC.md](SPEC.md) and [delivery scenarios](docs/acceptance-scenarios.md).
 Tested official DSH reference:

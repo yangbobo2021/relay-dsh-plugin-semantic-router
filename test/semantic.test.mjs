@@ -35,6 +35,9 @@ test("single-pass semantic router retries invalid structured output", async () =
   assert.equal(result.decision.deliveries[0].session_id, "session-quote");
   assert.equal(prompts.length, 2);
   assert.match(prompts[0].prompt, /untrusted evidence/);
+  for (const key of ["disposition", "actionable", "deliveries", "session_id", "wait_ids", "relation", "confidence", "evidence", "summary"]) {
+    assert.ok(prompts[0].prompt.includes(`"${key}"`), `model receives required JSON field ${key}`);
+  }
   assert.match(prompts[1].prompt, /previous response was invalid/);
   assert.deepEqual(result.telemetry, {
     model_calls: 2,

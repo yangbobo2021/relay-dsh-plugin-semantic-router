@@ -59,3 +59,19 @@ test("DSH adapter aborts the exact model call at its deadline", async () => {
 function validDecision() {
   return { disposition: "dismiss", actionable: false, deliveries: [], evidence: ["newsletter"], summary: "dismiss" };
 }
+
+test("deadline bounds even an uncooperative stream, and unload aborts without retry", async () => {
+  const { createSinglePassSemanticRouter } = await import("../src/semantic.mjs");
+  let calls = 0;
+  const llm = { async * stream() { calls++; await new Promise(() => {}); } };
+  await assert.rejects(createDshLlmRoutingAdapter({ llm, provider: "p", model: "m", timeoutMs: 5 })
+    .call({ prompt: "x" }), /timed out/);
+  const abort = new AbortController();
+  const router = createSinglePassSemanticRouter({ adapter: createDshLlmRoutingAdapter({
+    llm, provider: "p", model: "m", signal: abort.signal,
+  }) });
+  const pending = router.route({ event: {}, sessions: [] });
+  abort.abort(new Error("unloaded"));
+  await assert.rejects(pending, /unloaded/);
+  assert.equal(calls, 2);
+});
