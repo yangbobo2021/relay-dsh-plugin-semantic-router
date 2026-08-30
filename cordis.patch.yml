@@ -1,0 +1,4 @@
+- insert:
+    - id: relay-semantic-router-host
+      name: 'relay-dsh-plugin-semantic-router'
+      config: {}
