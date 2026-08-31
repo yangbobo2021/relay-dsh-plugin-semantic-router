@@ -1,6 +1,6 @@
 {
   "name": "relay-dsh-plugin-semantic-router",
-  "version": "0.1.0-internal.1",
+  "version": "0.1.0-internal.2",
   "description": "Recall-oriented semantic Event router for Relay Events on DeepSeek Harness.",
   "keywords": ["dsh-plugin", "deepseek-harness", "semantic-routing", "events"],
   "license": "MIT",
