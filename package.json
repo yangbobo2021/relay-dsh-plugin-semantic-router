@@ -1,6 +1,6 @@
 {
   "name": "relay-dsh-plugin-semantic-router",
-  "version": "0.1.0",
+  "version": "0.1.0-internal.1",
   "description": "Recall-oriented semantic Event router for Relay Events on DeepSeek Harness.",
   "keywords": ["dsh-plugin", "deepseek-harness", "semantic-routing", "events"],
   "license": "MIT",
@@ -29,7 +29,7 @@
   "dsh": { "bundle": { "patch": "./cordis.patch.yml" } },
   "peerDependencies": {
     "@deepseek-ai/dsh-llm": ">=0.1.0-rc.5 <0.1.1 || >=0.1.1-rc.0 <0.2.0",
-    "relay-dsh-plugin-events": "^0.1.0"
+    "relay-dsh-plugin-events": ">=0.1.0-internal.1 <0.2.0"
   },
   "peerDependenciesMeta": {
     "@deepseek-ai/dsh-llm": { "optional": true },
