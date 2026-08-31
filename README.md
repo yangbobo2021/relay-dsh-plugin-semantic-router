@@ -1,5 +1,7 @@
 # Relay Semantic Router for DeepSeek Harness
 
+> 未发布适配：本分支已迁移到 DSH `0.1.2-alpha.2`。npm 版本和标签尚未更新；下方已发布版本的安装示例不代表新版兼容性。见[适配说明](docs/dsh-0.1.2-alpha.2.md)。
+
 `relay-dsh-plugin-semantic-router` registers a recall-oriented model Router with
 `relay-dsh-plugin-events`. It decides `deliver`, `escalate`, or `dismiss` from a
 normalized Event and compact active-Wait snapshot. It stores nothing and never
