@@ -1,6 +1,6 @@
 # Semantic Router Delivery Acceptance Scenarios
 
-Official DSH reference: `b150a551b8d465e31e418e1b2eaf5e79bbb7d28e`
+Official DSH reference: `dd6322d604e00eec1ba5e0c8541159906a21094a`
 
 | ID | Scenario | Required result | Evidence |
 | --- | --- | --- | --- |
@@ -19,4 +19,7 @@ Official DSH reference: `b150a551b8d465e31e418e1b2eaf5e79bbb7d28e`
 | RTR-013 | Provider replacement | Unload removes only this Router; Events exact fallback resumes. | Cordis lifecycle |
 | RTR-014 | Package boundary | Tarball has no Relay parent imports, execution-backend code, source tree, or secrets. | pack/static |
 | RTR-015 | Configured composition | Events+Router packed tarballs boot in official DSH with a fake/replay LLM route. | official DSH |
-
+| RTR-016 | Candidate privacy | Captured requests exclude credentials, continuation, unrelated context, raw bodies, and inactive history while bounding untrusted summaries. | fake LLM security |
+| RTR-017 | Audit identity | Routing attempt records prompt version, candidate fingerprint, model, latency, and tokens without hidden reasoning. | SQLite composition |
+| RTR-018 | Runtime Settings lifecycle | Configure, replace, and disable through writable DSH Settings dispose/register exactly once, persist across reload, and immediately restore exact fallback when disabled. | Cordis + official DSH browser |
+| RTR-019 | Bilingual contained state | Missing/disabled configuration, healthy route, validation, and destructive confirmation have complete English/Chinese copy and accessible controls. | official DSH browser |

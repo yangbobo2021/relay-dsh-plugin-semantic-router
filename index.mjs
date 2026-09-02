@@ -4,5 +4,6 @@ export {
   callSemanticDecision,
   createSinglePassSemanticRouter,
   mergeRoutingTelemetry,
+  sanitizeRoutingEvent,
   semanticRoutingPolicyPrompt,
 } from "./src/semantic.mjs";
