@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { validateRoutingDecision } from "relay-dsh-plugin-events/contracts";
 
 const DEFAULT_TASK = "Make the final decision in one pass.";
@@ -50,7 +51,11 @@ export async function callSemanticDecision({
       validateRoutingDecision({ decision: call.output, sessions, label });
       return {
         decision: call.output,
-        telemetry: mergeRoutingTelemetry(...telemetryParts),
+        telemetry: {
+          ...mergeRoutingTelemetry(...telemetryParts),
+          prompt_version: payload.prompt_version ?? "relay-semantic-v1",
+          candidate_fingerprint: payload.candidate_fingerprint ?? null,
+        },
       };
     } catch (error) {
       if (error.errorClass === "cancelled") throw error;
@@ -62,28 +67,48 @@ export async function callSemanticDecision({
 }
 
 export function buildSemanticRoutingPayload(event, sessions) {
-  return {
-    event,
-    sessions: sessions
+  const candidates = sessions
       .map((session) => ({
-        session_id: session.session_id,
-        task_summary: session.task_summary,
+        session_id: boundedText(session.session_id, 256),
+        task_summary: boundedText(session.task_summary, 2000),
         waits: session.waits
           .filter((wait) => wait.status === "active" || wait.status === "claimed")
           .map((wait) => ({
             wait_id: wait.wait_id,
             status: wait.status,
             exclusive: wait.exclusive,
-            expected_event: wait.expected_event,
-            caused_by: wait.caused_by,
-            actors: wait.actors,
-            entities: wait.entities,
-            phase: wait.phase,
-            prior_exchange: wait.prior_exchange,
+            expected_event: boundedText(wait.expected_event, 2000),
+            caused_by: boundedText(wait.caused_by, 2000),
+            actors: boundedArray(wait.actors, 32, 256),
+            entities: boundedArray(wait.entities, 32, 512),
+            phase: boundedText(wait.phase, 256),
+            prior_exchange: boundedText(wait.prior_exchange, 4000),
           })),
       }))
-      .filter((session) => session.waits.length > 0),
+      .filter((session) => session.waits.length > 0)
+      .slice(0, 100);
+  return {
+    prompt_version: "relay-semantic-v1",
+    event: sanitizeRoutingEvent(event),
+    sessions: candidates,
+    candidate_fingerprint: createHash("sha256").update(JSON.stringify(candidates)).digest("hex"),
   };
+}
+
+export function sanitizeRoutingEvent(event) {
+  const source = event && typeof event === "object" ? event : {};
+  const allowed = [
+    "event_id", "source", "type", "provider_event", "action", "outcome", "subject",
+    "stable_subject", "from", "to", "cc", "received_at", "occurred_at", "evidence",
+    "attachment_summary", "thread_evidence",
+  ];
+  const result = {};
+  for (const key of allowed) {
+    if (source[key] != null) result[key] = sanitizeEvidenceValue(source[key], 0);
+  }
+  if (typeof source.body_summary === "string") result.content_summary = boundedText(source.body_summary, 4000);
+  else if (typeof source.body === "string") result.content_summary = boundedText(source.body, 4000);
+  return result;
 }
 
 export function buildSemanticRoutingPrompt(payload, task = DEFAULT_TASK) {
@@ -134,4 +159,25 @@ export function mergeRoutingTelemetry(...parts) {
       output_tokens: 0,
     },
   );
+}
+
+function sanitizeEvidenceValue(value, depth) {
+  if (depth > 3) return "[bounded]";
+  if (typeof value === "string") return boundedText(value, 2000);
+  if (typeof value === "number" || typeof value === "boolean" || value == null) return value;
+  if (Array.isArray(value)) return value.slice(0, 20).map(item => sanitizeEvidenceValue(item, depth + 1));
+  if (typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).slice(0, 40)
+      .filter(([key]) => !/(?:token|secret|authorization|cookie|credential|raw[_-]?body)/iu.test(key))
+      .map(([key, child]) => [boundedText(key, 128), sanitizeEvidenceValue(child, depth + 1)]));
+  }
+  return String(value).slice(0, 256);
+}
+
+function boundedText(value, max) {
+  return typeof value === "string" ? value.slice(0, max) : "";
+}
+
+function boundedArray(value, count, length) {
+  return Array.isArray(value) ? value.slice(0, count).map(item => boundedText(item, length)) : [];
 }

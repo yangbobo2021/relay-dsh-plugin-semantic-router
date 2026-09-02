@@ -26,8 +26,9 @@ dsh plugin --profile web add --save-exact \
   relay-dsh-plugin-semantic-router@internal
 ```
 
-通过 `RELAY_ROUTER_PROVIDER` 与 `RELAY_ROUTER_MODEL` 配置已有 DSH LLM 路由。缺少
-配置时插件进入受控的未启用状态，Events 继续使用精确匹配的回退路由。
+在 DSH“设置 → 等待事件”中配置、替换或停用已有 DSH LLM 路由；
+`RELAY_ROUTER_PROVIDER` 与 `RELAY_ROUTER_MODEL` 仅作为启动回退。缺少或停用配置时，
+界面会展示受控的未启用状态，Events 无需重启即可继续使用精确匹配回退。
 
 构建时将 `DSH_ROOT` 指向准备好的官方 DSH 只读检出，然后执行
 `npm ci --ignore-scripts && npm run verify && npm pack`，并同时安装生成的 tarball。

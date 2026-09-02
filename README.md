@@ -28,9 +28,10 @@ dsh plugin --profile web add --save-exact \
   relay-dsh-plugin-semantic-router@internal
 ```
 
-Configure an existing DSH LLM route with `RELAY_ROUTER_PROVIDER` and
-`RELAY_ROUTER_MODEL`. Missing configuration is a contained inactive state; Events
-continues exact fallback routing.
+Configure, replace, or disable an existing DSH LLM route from DSH Settings → Waiting
+events. Environment variables `RELAY_ROUTER_PROVIDER` and `RELAY_ROUTER_MODEL` are
+startup fallbacks. Missing or disabled configuration is a visible contained state;
+Events continues exact fallback routing without restart.
 
 Build this repository with `DSH_ROOT` pointing to a prepared official DSH checkout:
 `npm ci --ignore-scripts && npm run verify && npm pack`. Install the resulting

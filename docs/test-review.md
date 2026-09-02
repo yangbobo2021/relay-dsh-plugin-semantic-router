@@ -32,3 +32,13 @@ cross-plugin delivery harness.
   pass in Relay's cross-plugin lifecycle test.
 - Corrected the installation instructions: built tarballs, not raw GitHub source
   with missing ignored `lib/` artifacts.
+
+## Review 5 — runtime configuration and UI
+
+- Writable DSH Settings now controls configure/replace/disable without Host restart;
+  environment values remain startup fallbacks. Provider swaps dispose the old
+  registration before adding the new one, while partial invalid input preserves the
+  current route.
+- Verification discovered 13/13 Router tests with zero skip/todo. The official DSH
+  browser disabled the Router, proved exact fallback remained healthy, configured it
+  again, persisted the state, and completed English/Chinese and keyboard checks.
