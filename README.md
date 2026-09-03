@@ -5,7 +5,7 @@
 > **Release channels:** `latest` → `0.2.2`; `next` → `0.2.1-rc.1`.
 
 ```bash
-npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-events@0.2.2 relay-dsh-plugin-semantic-router@0.2.2
+npx @deepseek-ai/dsh@0.1.2-rc.1 plugin --profile web add relay-dsh-plugin-events@0.2.3-rc.1 relay-dsh-plugin-semantic-router@0.2.3-rc.1
 npx @deepseek-ai/dsh@0.1.2-rc.1 web
 ```
 
