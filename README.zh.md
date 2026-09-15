@@ -1,8 +1,8 @@
 # 面向 DeepSeek Harness 的 Relay Semantic Router
 
-> **候选版本 `0.2.3-rc.2` 已在官方 DSH `0.1.5-rc.2` 和 `0.1.6-alpha.1` 上验证。** 无需修改实现，peer 元数据已声明两个精确版本。[从 npm 安装](https://www.npmjs.com/package/relay-dsh-plugin-semantic-router) · [兼容性证据](https://github.com/yangbobo2021/Relay/tree/codex/relay-foundation/dsh-lab/dsh-0.1.6-alpha.1-20260915)。
+> **稳定版 `0.2.3` 已在官方 DSH `0.1.5-rc.2` 和 `0.1.6-alpha.1` 上验证。** 无需修改实现，peer 元数据已声明两个精确版本。[从 npm 安装](https://www.npmjs.com/package/relay-dsh-plugin-semantic-router) · [兼容性证据](https://github.com/yangbobo2021/Relay/tree/codex/relay-foundation/dsh-lab/dsh-0.1.6-alpha.1-20260915)。
 
-> **发布通道：** `latest` → `0.2.2`；`next` → `0.2.3-rc.2`。
+> **发布通道：** `latest` → `0.2.3`；`next` → `0.2.3-rc.2`。
 
 ```bash
 npx @deepseek-ai/dsh@0.1.6-alpha.1 plugin --profile web add relay-dsh-plugin-events@next relay-dsh-plugin-semantic-router@next
