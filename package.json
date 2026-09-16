@@ -1,6 +1,6 @@
 {
   "name": "relay-dsh-plugin-semantic-router",
-  "version": "0.2.3",
+  "version": "0.2.4-rc.1",
   "description": "Recall-oriented semantic Event router for Relay Events on DeepSeek Harness.",
   "keywords": [
     "dsh-plugin",
